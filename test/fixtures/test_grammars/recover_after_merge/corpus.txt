@@ -1,0 +1,28 @@
+=========================================
+valid item followed by invalid tokens
+=========================================
+
+( a ) a ( ( ) )
+
+---
+
+(source_file
+  (item
+    (name))
+  (ERROR
+    (name)))
+
+=========================================
+valid item followed by invalid tokens, then an extra
+=========================================
+
+( a ) a ( ( ) ) # comment
+
+---
+
+(source_file
+  (item
+    (name))
+  (ERROR
+    (name))
+  (comment))

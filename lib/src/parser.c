@@ -1312,6 +1312,7 @@ static void ts_parser__recover(
   StackSummary *summary = ts_stack_get_summary(self->stack, version);
   uint32_t node_count_since_error = ts_stack_node_count_since_error(self->stack, version);
   uint32_t current_error_cost = ts_stack_error_cost(self->stack, version);
+  uint32_t depth_since_error = ts_stack_depth_since_error(self->stack, version);
 
   // When the parser is in the error state, there are two strategies for recovering with a
   // given lookahead token:
@@ -1331,8 +1332,7 @@ static void ts_parser__recover(
 
       if (entry.state == ERROR_STATE) continue;
       if (entry.position.bytes == position.bytes) continue;
-      uint32_t depth = entry.depth;
-      if (node_count_since_error > 0) depth++;
+      uint32_t depth = entry.depth + depth_since_error - 1;
 
       // Do not recover in ways that create redundant stack versions.
       bool would_merge = false;

@@ -79,6 +79,10 @@ StackSliceArray ts_stack_pop_all(Stack *self, StackVersion version);
 // since the last error was detected.
 uint32_t ts_stack_node_count_since_error(const Stack *self, StackVersion version);
 
+// Get the number of subtrees between the top of the given version of the
+// stack and the state that it was in before entering the error state.
+uint32_t ts_stack_depth_since_error(const Stack *self, StackVersion version);
+
 int32_t ts_stack_dynamic_precedence(Stack *self, StackVersion version);
 
 bool ts_stack_has_advanced_since_error(const Stack *self, StackVersion version);

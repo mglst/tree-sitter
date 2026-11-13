@@ -509,6 +509,17 @@ uint32_t ts_stack_node_count_since_error(const Stack *self, StackVersion version
   return head->node->node_count - head->node_count_at_last_error;
 }
 
+uint32_t ts_stack_depth_since_error(const Stack *self, StackVersion version) {
+  const StackNode *node = array_get(&self->heads, version)->node;
+  uint32_t depth = 0;
+  while (node->state == ERROR_STATE && node->link_count > 0) {
+    Subtree subtree = node->links[0].subtree;
+    if (!subtree.ptr || !ts_subtree_extra(subtree)) depth++;
+    node = node->links[0].node;
+  }
+  return depth;
+}
+
 void ts_stack_push(
   Stack *self,
   StackVersion version,
